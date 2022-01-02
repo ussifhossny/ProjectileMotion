@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projectile Motion</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h1>Projectile Motion</h1>
+        <div class="inBox">
+          <div>
+            <input
+              onchange="checkNumber(this.value)"
+              value=""
+              id="vel"
+              name="velocity"
+              type="text"
+              placeholder="Enter the Velocity"
+            />
+            <input
+              onchange="checkNumber(this.value)"
+              id="ang"
+              value=""
+              name="angle"
+              type="text"
+              placeholder="Enter the Angle"
+            />
+          </div>
+          <div class="btn">
+            <button onclick="start()">Launch</button>
+            <button onclick="reset()">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="drawing">
+        <canvas id="canvas" height="500" width="800"></canvas>
+      </div>
+    </div>
+  </body>
+  <script src="/app.js"></script>
+</html>
