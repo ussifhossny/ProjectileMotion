@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projectile Motion</title>
-    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="container">
@@ -41,5 +40,164 @@
       </div>
     </div>
   </body>
-  <script src="app.js"></script>
+  <style>
+  body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: rgb(103, 78, 248);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+}
+input {
+  color: white;
+  background-color: black;
+  font-weight: bolder;
+  outline: none;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 4px;
+}
+::placeholder {
+  color: rgba(255, 255, 255, 0.815);
+}
+Button {
+  padding: 9px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  background-color: rgb(6, 16, 110);
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  min-width: 100px;
+}
+button:hover {
+  background-color: rgb(128, 9, 0);
+}
+.btn {
+  width: 100%;
+  margin: 10px 40px 5px 116px;
+}
+canvas {
+  background-color: black;
+  border-radius: 5px;
+  margin-left: 20px;
+  box-shadow: 10px 10px 20px 7px rgb(7, 49, 139);
+}
+img {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+}
+h1 {
+  text-align: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: bolder;
+  color: black;
+}
+  </style>
+  <script>
+        onst g = 9.81;
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const vel = document.getElementById("vel");
+    const ang = document.getElementById("ang");
+    let Angle,
+      timer,
+      velocity,
+      x = 40,
+      y = 460,
+      radius = 5;
+
+    let frameCount = 0;
+    let v0x = velocity * Math.cos((Angle * Math.PI) / 180);
+    let v0y = velocity * Math.sin((Angle * Math.PI) / 180);
+    let startX = x;
+    let startY = y;
+
+    const make_base = () => {
+      base_image = new Image(10, 10);
+      base_image.src = "pall.png";
+      base_image.onload = function () {
+        ctx.drawImage(base_image, 0, 460);
+      };
+    };
+    make_base();
+
+    const init = () => {
+      velocity = vel.value;
+      Angle = ang.value;
+      frameCount = 0;
+      v0x = velocity * Math.cos((Angle * Math.PI) / 180);
+      v0y = velocity * Math.sin((Angle * Math.PI) / 180);
+    };
+
+    const draw = () => {
+      ctx.save();
+      ctx.restore();
+      if (y < canvasHeight - radius + 1 && x < canvasWidth - radius + 1) {
+        y = startY - (v0y * frameCount - (1 / 2) * g * Math.pow(frameCount, 2));
+        x = startX + v0x * frameCount;
+      } else {
+        clearInterval(timer);
+      }
+      ctx.save();
+      ctx.beginPath();
+      ctx.fillStyle = "blue";
+      ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
+      ctx.restore();
+      frameCount += 0.15;
+    };
+
+    const checkS = () => {
+      if (isNaN(vel.value) || vel.value === "") {
+        alert("velocity: " + vel.value + "not a number");
+        return 0;
+      }
+      if (isNaN(ang.value) || ang.value === "") {
+        alert("Angle: " + ang.value + "not a number");
+        return 0;
+      }
+      return 1;
+    };
+
+    const reset = () => {
+      clearInterval(timer);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      make_base();
+      x = 40;
+      y = 460;
+      startX = x;
+      startY = y;
+    };
+
+    const start = () => {
+      reset();
+      init();
+      if (checkS()) timer = setInterval(draw, 10);
+    };
+
+    const checkNumber = (val) => {
+      if (isNaN(val)) alert("Please enter a number.");
+    };
+  </script>
 </html>
